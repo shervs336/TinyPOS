@@ -13,13 +13,15 @@ var app = angular.module("sampleApp", ["firebase"]);
 
 app.controller("SampleCtrl", function($scope, $firebaseObject, $firebaseArray, $firebaseAuth) {
 	var auth = $firebaseAuth();
-		
+	
 	var ref = firebase.database().ref();
 	
 	$scope.data = $firebaseObject(ref);
 	
 	$scope.firebaseUser = null;
 	$scope.error = null;
+	$scope.AddOrEdit = true;
+	$scope.NowEditing = "";
 	
 	/*
 	auth.$signInAnonymously().then(function(firebaseUser){
@@ -48,5 +50,21 @@ app.controller("SampleCtrl", function($scope, $firebaseObject, $firebaseArray, $
 		});
 		
 	}
+	
+	$scope.edit = function(data){
+		$scope.AddOrEdit = false;
+		document.querySelector('[ng-model="itemDescription"]').value = data.item;
+		document.querySelector('[ng-model="itemStock"]').value = data.qty;
+		document.querySelector('[ng-model="itemPrice"]').value = data.price;
+	}
+	
+	$scope.cancel = function(){
+		$scope.AddOrEdit = true;
+		document.querySelector('[ng-model="itemDescription"]').value = "";
+		document.querySelector('[ng-model="itemStock"]').value = "";
+		document.querySelector('[ng-model="itemPrice"]').value = "";
+	}
+	
+	
 
 });
